@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Noor Portfolio</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Swiper -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+
+<body class="bg-[#fafafa] text-black scroll-smooth">
+
+  <!-- NAV -->
+  <nav class="flex justify-between p-6 text-sm">
+    <h1 class="font-semibold">Noor</h1>
+    <div class="space-x-6 text-gray-600">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="h-[70vh] flex flex-col justify-center px-6 md:px-20">
+    <h1 class="text-4xl md:text-6xl font-semibold leading-tight mb-6">
+      UI/UX Designer creating clean digital experiences
+    </h1>
+    <p class="text-gray-500 max-w-xl">
+      I design intuitive and aesthetic interfaces for web and mobile.
+    </p>
+  </section>
+
+  <!-- SLIDER -->
+  <section id="work" class="px-6 md:px-20 py-16">
+    <h2 class="text-2xl mb-10">Selected Work</h2>
+
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+
+        <!-- Project 1 -->
+        <div class="swiper-slide cursor-pointer" onclick="scrollToProject('fenty')">
+          <img src="images/fenty.png" class="rounded-2xl mb-4">
+          <h3 class="text-lg">Fenty Beauty Redesign</h3>
+          <p class="text-gray-500 text-sm">UX/UI Case Study</p>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="swiper-slide cursor-pointer" onclick="scrollToProject('elie')">
+          <img src="images/elie.png" class="rounded-2xl mb-4">
+          <h3 class="text-lg">Elie Saab Website</h3>
+          <p class="text-gray-500 text-sm">Luxury Experience</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT DETAILS -->
+
+  <!-- FENTY -->
+  <section id="fenty" class="px-6 md:px-20 py-20 border-t">
+    <h2 class="text-3xl font-semibold mb-6">Fenty Beauty Redesign</h2>
+    <img src="images/fenty.png" class="rounded-2xl mb-6">
+    <p class="text-gray-600 max-w-2xl">
+      This project focuses on redesigning the Fenty Beauty website to improve usability, accessibility, and visual hierarchy.
+    </p>
+  </section>
+
+  <!-- ELIE -->
+  <section id="elie" class="px-6 md:px-20 py-20 border-t">
+    <h2 class="text-3xl font-semibold mb-6">Elie Saab Website</h2>
+    <img src="images/elie.png" class="rounded-2xl mb-6">
+    <p class="text-gray-600 max-w-2xl">
+      A luxury redesign focusing on elegance, typography, and immersive visual storytelling.
+    </p>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="px-6 md:px-20 py-16 border-t">
+    <h2 class="text-2xl mb-6">About</h2>
+    <p class="text-gray-600 max-w-xl">
+      I’m Noor, a UI/UX designer with a background in computer engineering. I focus on clean, user-centered design.
+    </p>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="px-6 md:px-20 py-16 border-t">
+    <h2 class="text-2xl mb-6">Contact</h2>
+    <p class="text-gray-600">
+      your@email.com
+    </p>
+  </section>
+
+  <!-- Swiper -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+  <script>
+    new Swiper(".mySwiper", {
+      slidesPerView: 1.2,
+      spaceBetween: 20,
+      grabCursor: true,
+      breakpoints: {
+        768: {
+          slidesPerView: 2.2
+        }
+      }
+    });
+
+    function scrollToProject(id) {
+      document.getElementById(id).scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+  </script>
+
+</body>
+</html>
