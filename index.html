@@ -2,128 +2,682 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Noor Portfolio</title>
-
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <!-- Swiper -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noor Salama - Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
+    :root {
+      --lime: #D2DB76;
+      --pink: #FFC3CC;
+      --dark-green: #28301C;
+      --cream: #F9F6EE;
+      --muted: #f0ede4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark-green); overflow-x: hidden; }
+    h1,h2,h3,h4,h5 { font-family: 'Playfair Display', serif; }
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4rem; background: var(--dark-green);
+      position: sticky; top: 0; z-index: 200;
+    }
+    .ns-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; text-decoration: none; display: flex; align-items: flex-start; gap: 1px; line-height: 1; }
+    .ns-logo .n { color: var(--lime); }
+    .ns-logo .s { color: var(--pink); }
+    .ns-logo .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--pink); margin-top: 5px; margin-left: 2px; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.83rem; letter-spacing: 0.04em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--lime); }
+    .social-icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.65); text-decoration: none; transition: background 0.2s, color 0.2s; }
+    .social-icon:hover { background: var(--lime); color: var(--dark-green); }
+    .social-icon svg { width: 15px; height: 15px; fill: currentColor; }
+    .hero { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 4rem 2rem; background: var(--dark-green); position: relative; overflow: hidden; }
+    .hero::before { content:''; position:absolute; width:500px; height:500px; background: radial-gradient(circle, rgba(210,219,118,0.13) 0%, transparent 70%); top:-100px; right:-100px; border-radius:50%; }
+    .hero::after { content:''; position:absolute; width:350px; height:350px; background: radial-gradient(circle, rgba(255,195,204,0.09) 0%, transparent 70%); bottom:-50px; left:-50px; border-radius:50%; }
+    .hero-profile { width:120px; height:120px; border-radius:50%; object-fit:cover; border:3px solid var(--lime); margin-bottom:2rem; opacity:0; animation:fadeUp 0.8s 0.2s forwards; }
+    .hero h1 { font-size: clamp(2.4rem,5.5vw,4.8rem); color:var(--cream); line-height:1.1; max-width:800px; opacity:0; animation:fadeUp 0.8s 0.4s forwards; }
+    .hero h1 em { color: var(--lime); font-style: italic; }
+    .hero p { color: rgba(249,246,238,0.6); margin-top:1.5rem; font-size:1.05rem; max-width:480px; opacity:0; animation:fadeUp 0.8s 0.6s forwards; }
+    .hero-tags { display:flex; gap:0.7rem; margin-top:2rem; flex-wrap:wrap; justify-content:center; opacity:0; animation:fadeUp 0.8s 0.8s forwards; }
+    .tag { padding:0.4rem 1rem; border-radius:999px; font-size:0.78rem; font-weight:500; letter-spacing:0.04em; }
+    .tag-lime { background:var(--lime); color:var(--dark-green); }
+    .tag-pink { background:var(--pink); color:var(--dark-green); }
+    .tag-outline { border:1px solid rgba(255,255,255,0.22); color:rgba(255,255,255,0.7); }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+    section { padding: 5rem 4rem; }
+    .section-label { font-size:0.72rem; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--dark-green); opacity:0.45; margin-bottom:0.6rem; }
+    .section-title { font-family:'Playfair Display',serif; font-size:clamp(1.9rem,3.5vw,2.8rem); color:var(--dark-green); margin-bottom:2rem; }
+    #about { background: var(--cream); }
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; }
+    .about-text p { font-size:0.97rem; line-height:1.85; color:#444; margin-bottom:1.1rem; }
+    .skills-row { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1.5rem; }
+    .skill-pill { padding:0.35rem 0.9rem; border-radius:999px; font-size:0.75rem; font-weight:500; background:var(--dark-green); color:var(--lime); }
+    .xr-card { background:var(--dark-green); border-radius:20px; padding:1.5rem 2rem; }
+    .xr-card .card-label { font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--lime); margin-bottom:0.5rem; }
+    .xr-card p { font-size:0.9rem; line-height:1.7; color:rgba(249,246,238,0.8); }
+    .edu-block { margin-top:1.5rem; padding:1.2rem 1.5rem; border-left:3px solid var(--lime); background:white; border-radius:0 12px 12px 0; }
+    .edu-block h4 { font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--dark-green); }
+    .edu-block p { font-size:0.82rem; color:#999; margin-top:0.2rem; }
+    #experience { background: var(--muted); }
+    .exp-layout { display:grid; grid-template-columns:260px 1fr; gap:4rem; }
+    .exp-intro p { font-size:0.93rem; line-height:1.8; color:#555; margin-top:1rem; }
+    .timeline { position:relative; padding-left:2rem; }
+    .timeline::before { content:''; position:absolute; left:0; top:8px; bottom:0; width:1px; background:linear-gradient(to bottom, var(--dark-green), transparent); }
+    .timeline-item { position:relative; padding-bottom:2.5rem; opacity:0; transform:translateX(-20px); transition:opacity 0.5s ease, transform 0.5s ease; }
+    .timeline-item.visible { opacity:1; transform:translateX(0); }
+    .timeline-item:last-child { padding-bottom:0; }
+    .timeline-dot { position:absolute; left:-2.35rem; top:6px; width:14px; height:14px; border-radius:50%; border:2px solid var(--dark-green); background:var(--cream); transition:background 0.3s; }
+    .timeline-item:hover .timeline-dot, .timeline-item.current .timeline-dot { background:var(--lime); border-color:var(--lime); }
+    .timeline-date { font-size:0.7rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:#aaa; margin-bottom:0.4rem; }
+    .timeline-title { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--dark-green); margin-bottom:0.5rem; }
+    .timeline-body { font-size:0.86rem; line-height:1.75; color:#555; }
+    .timeline-body ul { padding-left:1rem; }
+    .timeline-body ul li { margin-bottom:0.3rem; list-style:disc; }
+    .current-badge { display:inline-block; margin-left:0.5rem; padding:0.15rem 0.6rem; border-radius:999px; font-size:0.65rem; font-weight:500; background:var(--lime); color:var(--dark-green); vertical-align:middle; font-family:'DM Sans',sans-serif; }
+    #work { background: var(--dark-green); }
+    #work .section-label { color:var(--lime); opacity:0.6; }
+    #work .section-title { color:var(--cream); }
+    .projects-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.5rem; margin-top:2rem; }
+    .project-card { border-radius:20px; overflow:hidden; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); transition:transform 0.3s, border-color 0.3s; cursor:pointer; }
+    .project-card:hover { transform:translateY(-6px); border-color:var(--lime); }
+    .project-thumb { width:100%; height:210px; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--dark-green); font-style:italic; position:relative; overflow:hidden; }
+    .project-thumb .thumb-label { position:relative; z-index:1; text-align:center; padding:1rem; }
+    .p1-bg { background:linear-gradient(135deg,var(--lime) 0%,#a8b850 100%); }
+    .p2-bg { background:linear-gradient(135deg,var(--pink) 0%,#e8a0b0 100%); }
+    .p3-bg { background:#c8d5b9; }
+    .p4-bg { background:#e8e0d0; }
+    .p5-bg { background:#b5c9c3; }
+    .p6-bg { background:#d4c5b0; }
+    .project-info { padding:1.2rem 1.4rem; }
+    .project-info h3 { font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--cream); margin-bottom:0.4rem; }
+    .project-info p { font-size:0.8rem; color:rgba(249,246,238,0.5); line-height:1.5; }
+    .project-type { display:inline-block; margin-top:0.7rem; padding:0.2rem 0.7rem; border-radius:999px; font-size:0.65rem; font-weight:500; letter-spacing:0.05em; }
+    .type-ar { background:rgba(210,219,118,0.15); color:var(--lime); }
+    .type-vr { background:rgba(255,195,204,0.15); color:var(--pink); }
+    .type-ui { background:rgba(210,219,118,0.15); color:var(--lime); }
+    .type-ux { background:rgba(255,195,204,0.15); color:var(--pink); }
+    .open-hint { display:flex; align-items:center; gap:0.4rem; margin-top:0.8rem; font-size:0.72rem; color:rgba(249,246,238,0.35); }
+    .open-hint svg { width:12px; height:12px; fill:currentColor; }
+    .modal-overlay {
+      position:fixed; inset:0; z-index:500;
+      background:rgba(10,14,6,0.94); backdrop-filter:blur(10px);
+      display:flex; align-items:flex-start; justify-content:center;
+      overflow-y:auto; padding:2rem 1rem;
+      opacity:0; pointer-events:none; transition:opacity 0.3s ease;
+    }
+    .modal-overlay.open { opacity:1; pointer-events:all; }
+    .modal {
+      background:var(--cream); border-radius:28px; max-width:900px; width:100%;
+      overflow:hidden; transform:translateY(40px) scale(0.97);
+      transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      margin: auto;
+    }
+    .modal-overlay.open .modal { transform:translateY(0) scale(1); }
+    .modal-hero { width:100%; height:320px; display:flex; align-items:center; justify-content:center; position:relative; }
+    .modal-hero-ar { background:linear-gradient(135deg, var(--lime) 0%, #8fa830 100%); }
+    .modal-hero-vr { background:linear-gradient(135deg, #e8a0b0 0%, var(--pink) 60%, #d4788a 100%); }
+    .modal-hero-content { text-align:center; padding:2rem; z-index:1; }
+    .modal-hero-content .project-number { font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:rgba(40,48,28,0.55); margin-bottom:0.5rem; font-family:'DM Sans',sans-serif; }
+    .modal-hero-content h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.2rem); color:var(--dark-green); line-height:1.05; }
+    .modal-hero-content .hero-sub { font-size:0.9rem; color:rgba(40,48,28,0.65); margin-top:0.5rem; font-family:'DM Sans',sans-serif; }
+    .modal-close {
+      position:absolute; top:1.2rem; right:1.2rem;
+      width:38px; height:38px; border-radius:50%;
+      background:rgba(40,48,28,0.15); border:none; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      color:var(--dark-green); font-size:1.1rem; transition:background 0.2s; z-index:2;
+    }
+    .modal-close:hover { background:rgba(40,48,28,0.3); }
+    .modal-body { padding:2.5rem 3rem 3rem; }
+    .modal-meta { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:2.5rem; }
+    .meta-tag { padding:0.3rem 1rem; border-radius:999px; font-size:0.7rem; font-weight:500; letter-spacing:0.04em; font-family:'DM Sans',sans-serif; }
+    .meta-lime { background:var(--dark-green); color:var(--lime); }
+    .meta-pink { background:var(--dark-green); color:var(--pink); }
+    .meta-outline { border:1px solid rgba(40,48,28,0.2); color:var(--dark-green); }
+    .case-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:2rem; }
+    .case-card { background:white; border-radius:16px; padding:1.4rem 1.6rem; }
+    .case-card .cc-label { font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--dark-green); opacity:0.4; margin-bottom:0.5rem; font-family:'DM Sans',sans-serif; }
+    .case-card h5 { font-family:'Playfair Display',serif; font-size:1rem; color:var(--dark-green); margin-bottom:0.5rem; }
+    .case-card p { font-size:0.84rem; line-height:1.75; color:#555; }
+    .case-card ul { padding-left:1.1rem; }
+    .case-card ul li { font-size:0.84rem; line-height:1.7; color:#555; margin-bottom:0.3rem; list-style:disc; }
+    .case-full { background:white; border-radius:16px; padding:1.4rem 1.6rem; margin-bottom:1.5rem; }
+    .case-full .cc-label { font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--dark-green); opacity:0.4; margin-bottom:0.5rem; font-family:'DM Sans',sans-serif; }
+    .case-full h5 { font-family:'Playfair Display',serif; font-size:1rem; color:var(--dark-green); margin-bottom:0.6rem; }
+    .case-full p { font-size:0.84rem; line-height:1.8; color:#555; margin-bottom:0.6rem; }
+    .case-full ul { padding-left:1.1rem; }
+    .case-full ul li { font-size:0.84rem; line-height:1.7; color:#555; margin-bottom:0.3rem; list-style:disc; }
+    .dark-card { background:var(--dark-green); border-radius:16px; padding:1.4rem 1.6rem; margin-bottom:1.5rem; }
+    .dark-card .cc-label { font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--lime); opacity:0.7; margin-bottom:0.5rem; font-family:'DM Sans',sans-serif; }
+    .dark-card h5 { font-family:'Playfair Display',serif; font-size:1rem; color:var(--cream); margin-bottom:0.6rem; }
+    .dark-card p { font-size:0.84rem; line-height:1.8; color:rgba(249,246,238,0.75); }
+    .dark-card ul { padding-left:1.1rem; }
+    .dark-card ul li { font-size:0.84rem; line-height:1.7; color:rgba(249,246,238,0.75); margin-bottom:0.3rem; list-style:disc; }
+    .pill-row { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.8rem; }
+    .pill { padding:0.25rem 0.8rem; border-radius:999px; font-size:0.7rem; font-weight:500; font-family:'DM Sans',sans-serif; }
+    .pill-lime { background:rgba(210,219,118,0.2); color:#4a5a10; border:1px solid rgba(210,219,118,0.4); }
+    .pill-pink { background:rgba(255,195,204,0.25); color:#8a3040; border:1px solid rgba(255,195,204,0.4); }
+    .pill-cream { background:rgba(249,246,238,0.15); color:var(--lime); border:1px solid rgba(210,219,118,0.2); }
+    .divider { width:100%; height:1px; background:rgba(40,48,28,0.08); margin:2rem 0; }
+    .video-wrap { border-radius:16px; overflow:hidden; background:#0a0e06; aspect-ratio:16/9; margin:1.5rem 0; display:flex; align-items:center; justify-content:center; }
+    .video-wrap video { width:100%; height:100%; object-fit:contain; }
+    .video-label { font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--dark-green); opacity:0.4; text-align:center; margin-top:0.5rem; font-family:'DM Sans',sans-serif; }
+    .points-row { display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1rem; }
+    .point-badge { display:flex; align-items:center; gap:0.5rem; padding:0.5rem 1rem; border-radius:12px; background:rgba(40,48,28,0.06); font-size:0.78rem; font-weight:500; color:var(--dark-green); font-family:'DM Sans',sans-serif; }
+    .point-badge .check { width:18px; height:18px; border-radius:50%; background:var(--lime); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .point-badge .check svg { width:10px; height:10px; fill:var(--dark-green); }
+    footer { background:var(--dark-green); color:rgba(249,246,238,0.45); text-align:center; padding:2rem; font-size:0.82rem; border-top:1px solid rgba(255,255,255,0.05); }
+    footer span { color:var(--lime); }
+    .fade-section { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+    .fade-section.visible { opacity:1; transform:translateY(0); }
+    @media (max-width:768px) {
+      section { padding:3rem 1.5rem; }
+      nav { padding:1rem 1.5rem; }
+      .about-grid, .exp-layout, .case-grid, .two-col { grid-template-columns:1fr; gap:1.5rem; }
+      .modal-body { padding:1.5rem; }
+      .modal-hero { height:220px; }
     }
   </style>
 </head>
-
-<body class="bg-[#fafafa] text-black scroll-smooth">
-
-  <!-- NAV -->
-  <nav class="flex justify-between p-6 text-sm">
-    <h1 class="font-semibold">Noor</h1>
-    <div class="space-x-6 text-gray-600">
-      <a href="#work">Work</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="h-[70vh] flex flex-col justify-center px-6 md:px-20">
-    <h1 class="text-4xl md:text-6xl font-semibold leading-tight mb-6">
-      UI/UX Designer creating clean digital experiences
-    </h1>
-    <p class="text-gray-500 max-w-xl">
-      I design intuitive and aesthetic interfaces for web and mobile.
-    </p>
-  </section>
-
-  <!-- SLIDER -->
-  <section id="work" class="px-6 md:px-20 py-16">
-    <h2 class="text-2xl mb-10">Selected Work</h2>
-
-    <div class="swiper mySwiper">
-      <div class="swiper-wrapper">
-
-        <!-- Project 1 -->
-        <div class="swiper-slide cursor-pointer" onclick="scrollToProject('fenty')">
-          <img src="images/fenty.png" class="rounded-2xl mb-4">
-          <h3 class="text-lg">Fenty Beauty Redesign</h3>
-          <p class="text-gray-500 text-sm">UX/UI Case Study</p>
-        </div>
-
-        <!-- Project 2 -->
-        <div class="swiper-slide cursor-pointer" onclick="scrollToProject('elie')">
-          <img src="images/elie.png" class="rounded-2xl mb-4">
-          <h3 class="text-lg">Elie Saab Website</h3>
-          <p class="text-gray-500 text-sm">Luxury Experience</p>
-        </div>
-
+<body>
+<nav>
+  <a href="#" class="ns-logo"><span class="n">N</span><span class="s">S</span><span class="dot"></span></a>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="https://mail.google.com/mail/u/1/#inbox?compose=GTvVlcSDbhKxjVTwknlSKwtHlZtHddVCvRgcVwddpmpBnhjCPwMszzsXDCXKdNHLwLrJmsqBDvwQc" class="social-icon" title="Email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+    <a href="https://www.linkedin.com/in/noorsal" target="_blank" class="social-icon" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+    <a href="https://www.behance.net/noorsal1" target="_blank" class="social-icon" title="Behance"><svg viewBox="0 0 24 24"><path d="M6.938 4.503c.702 0 1.34.06 1.92.188.577.13 1.07.33 1.485.61.41.28.733.65.96 1.12.225.47.34 1.05.34 1.73 0 .74-.17 1.36-.507 1.86-.338.5-.837.9-1.502 1.22.906.26 1.576.72 2.022 1.37.448.66.673 1.45.673 2.36 0 .75-.13 1.39-.41 1.93-.28.55-.67 1-1.16 1.35-.48.348-1.05.6-1.7.757-.634.153-1.3.232-1.993.232H0V4.50h6.938zm-.4 5.798c.55 0 1-.13 1.35-.38.35-.26.527-.67.527-1.22 0-.3-.055-.553-.165-.76-.11-.205-.26-.372-.45-.497-.19-.12-.41-.21-.657-.258-.25-.047-.51-.07-.79-.07H3.5v3.19h3.038zm.21 6.025c.32 0 .62-.03.9-.09s.535-.168.745-.312c.21-.146.378-.348.5-.603.12-.255.183-.583.183-.984 0-.78-.217-1.335-.65-1.66-.434-.326-1.002-.49-1.705-.49H3.5v4.14h3.248zm9.09-1.86c.35.34.862.51 1.538.51.48 0 .893-.12 1.24-.36.35-.24.566-.5.65-.78h2.54c-.407 1.26-1.03 2.16-1.87 2.71-.84.54-1.86.81-3.06.81-.83 0-1.578-.13-2.24-.39-.662-.26-1.226-.633-1.69-1.11-.464-.48-.82-1.05-1.07-1.72-.248-.67-.373-1.4-.373-2.2 0-.78.13-1.5.39-2.16.26-.66.627-1.228 1.1-1.706.474-.48 1.04-.85 1.696-1.12.66-.27 1.39-.4 2.19-.4.9 0 1.686.17 2.36.52.675.35 1.23.82 1.665 1.41.435.59.75 1.26.944 2.01.193.75.265 1.54.213 2.38h-7.58c0 .76.22 1.34.566 1.67zm2.724-4.67c-.28-.31-.73-.46-1.35-.46-.39 0-.716.065-.977.2-.26.13-.473.294-.633.49-.16.2-.276.41-.344.63-.068.22-.11.42-.12.6h3.97c-.1-.66-.27-1.15-.546-1.46zm-3.624-3.95h4.98v1.26h-4.98V5.846z"/></svg></a>
+  </div>
+</nav>
+<section class="hero">
+  <img src="picture.jpg" alt="Noor" class="hero-profile" onerror="this.style.display='none'">
+  <h1>Hey! it's Noor, a <em>CS Engineer</em> & <em>UX|UI Designer</em>. I create <em>Clean</em> & <em>Interactive</em> Digital Experiences</h1>
+  <p> Currently based in Stockholm. I make digital platforms that don't just work, they vibe + interact!</p>
+  <div class="hero-tags">
+    <span class="tag tag-lime">UX/UI Design</span>
+    <span class="tag tag-pink">XR</span>
+    <span class="tag tag-outline">HCI</span>
+  </div>
+</section>
+<section id="about">
+  <div class="fade-section">
+    <p class="section-label">Who I am</p>
+    <h2 class="section-title">About Me</h2>
+  </div>
+  <div class="about-grid fade-section">
+    <div class="about-text">
+      <p>I'm Noor Salama and I love blending logic with creativity, turning wireframes into experiences that feel fun, intuitive, and a little unexpected. With a background in coding (Python, C#, Java), I bridge the gap between design and development.</p>
+      <p>I started my journey as a Computer Science Engineer, where I fell in love with solving problems through logic and code. But along the way, I realized something was missing, the spark of creativity. That's when I discovered UX/UI design.</p>
+      <p>What began as tinkering with layouts and colors quickly turned into a passion for crafting experiences that feel human, playful, and meaningful. My engineering background gave me the technical mindset to understand how things work, while design allowed me to reimagine how they should <em>feel</em>.</p>
+      <p>Since then, I've worked on everything from redesigning fashion and beauty websites to building apps that tackle real-world challenges like food waste. Each project has taught me that design isn't just about pixels, it's really about people!!</p>
+      <p>Now, I'm on a mission to bring a little funk into the digital world: designs that are not only functional but also spark joy, curiosity, and connection.</p>
+      <div class="skills-row">
+        <span class="skill-pill">Figma</span><span class="skill-pill">Python</span><span class="skill-pill">C#</span><span class="skill-pill">Java</span><span class="skill-pill">Unity</span><span class="skill-pill">AR/VR</span><span class="skill-pill">Prototyping</span><span class="skill-pill">User Research</span>
       </div>
     </div>
-  </section>
+    <div>
+      <div class="xr-card">
+        <p class="card-label">✦ Currently exploring</p>
+        <p>I am exploring more <strong>XR (Extended Reality)</strong> projects and  looking to combine them with the other disciplines I have studied and worked on. 
+          I am also going to contribute to a <stong>research internship</stong> in HCI, and separately, I am writing a <strong>paper on AI ethics</strong>, examining how AI should be used as a tool to enhance human work rather than control it.
+        </p>
+      </div>
+      <div class="edu-block">
+        <h4>Bachelor of Science in Computer Engineering</h4>
+        <p>Technical University of Sofia</p>
+       <span class="current-badge-pink">2018-2022</span>
+      </div>
+      <div class="edu-block">
+        <h4>Masters in Interactive Media Technologies</h4>
+        <p>KTH Kungliga Tekniska Högskolan</p>
+        <span class="current-badge-pink">2025-2027</span>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="experience">
+  <div class="exp-layout">
+    <div class="exp-intro fade-section">
+      <p class="section-label">Career path</p>
+      <h2 class="section-title">My Experiences</h2>
+      <p>From internships to self-driven projects, I've built experience designing for different contexts,fom beauty and fashion websites to apps tackling real-world issues.
+        I'm always looking forward to new challenges that let me mix creativity with problem-solving.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-date">Oct 2024 – June 2025</p>
+        <h3 class="timeline-title">UX/UI Designer Intern at Peekabox, Dubai - UAE</h3>
+        <div class="timeline-body"><ul>
+          <li>Designed user-friendly UI/UX for web and mobile in an Agile/Scrum environment.</li>
+          <li>Conducted user research, wireframing, and prototyping using Figma.</li>
+          <li>Developed and tested frontend components to ensure smooth interactions.</li>
+          <li>Collaborated with developers to ensure seamless design implementation.</li>
+          <li>Assisted in transitioning designs into code.</li>
+        </ul></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-date">Mar 2025 – Jul 2025</p>
+        <h3 class="timeline-title">UX/UI Designer Intern at Coursfy, Stockholm - Sweden</h3>
+        <div class="timeline-body"><p>Designed an E-learning platform alongside the team, focusing on intuitive flows and accessible interfaces.</p></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-date">Mar 2025 – Jul 2025</p>
+        <h3 class="timeline-title">Intelligent Apps Sweden AB</h3>
+        <div class="timeline-body"><p>Collaborated with cross-functional teams to optimize performance and enhance user's experience.</p></div>
+      </div>
+      <div class="timeline-item current">
+        <div class="timeline-dot"></div>
+        <p class="timeline-date">Oct 2025 – Present</p>
+        <h3 class="timeline-title">Frontend Developer - KTH AI Society <span class="current-badge">Now</span></h3>
+        <div class="timeline-body"><p>Collaborating with the team to build and improve the society's website.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="work">
+  <div class="fade-section"><p class="section-label">Portfolio</p><h2 class="section-title">Selected Work</h2></div>
+  <div class="projects-grid fade-section">
+    <div class="project-card" onclick="openModal('modal-ar')">
+      <div class="project-thumb p1-bg project-thumb-bg">Almost Real</div>
+      <div class="project-info"><h3>Almost Real - AR Furniture App</h3><p>Android AR app to visualise 3D furniture in your real space before buying.</p><span class="project-type type-ar">AR · Unity · C#</span><div class="open-hint"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>View case study</div></div>
+    </div>
+    <div class="project-card" onclick="openModal('modal-vr')">
+      <div class="project-thumb p2-bg project-thumb-bg">Mini-World</div>
+      <div class="project-info"><h3>Mini-World - Educational VR Game</h3><p>VR garden where players explore insects, photograph them, and complete a quiz.</p><span class="project-type type-vr">VR · Unity · XR</span><div class="open-hint"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>View case study</div></div>
+    </div>
+    <div class="project-card" onclick="openModal('modal-payment')">
+      <div class="project-thumb p3-bg project-thumb-bg">PayPay </div>
+      <div class="project-info"><h3>PayPay - Online Payment Landing Page</h3><p>A sleek, trust-forward landing page for an online banking &amp; payments product.</p><span class="project-type type-ui">UI Design · Web</span><div class="open-hint"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>View case study</div></div>
+    </div>
+    <div class="project-card" onclick="openModal('modal-cafe')">
+      <div class="project-thumb p4-bg project-thumb-bg">Le Petite Café </div>
+      <div class="project-info"><h3>Le Petite Café</h3><p>A website for ordering from a boutique café — browse the menu, customise, and checkout online.</p><span class="project-type type-ux">UX/UI · Web</span><div class="open-hint"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>View case study</div></div>
+    </div>
+    <div class="project-card" onclick="openModal('modal-muzic')">
+      <div class="project-thumb p5-bg project-thumb-bg">Muzic </div>
+      <div class="project-info"><h3>Muzic App</h3><p>Dark-mode music streaming app with rich album art and immersive playback UI.</p><span class="project-type type-ui">UI Design · Mobile</span><div class="open-hint"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>View case study</div></div>
+    </div>
+    <div class="project-card" onclick="openModal('modal-foodz')">
+      <div class="project-thumb p6-bg project-thumb-bg">Foodz </div>
+      <div class="project-info"><h3>Foodz - Delivery App</h3><p>End-to-end food delivery mobile app - browse, cart, track, and review.</p><span class="project-type type-ux">UX/UI · Mobile</span><div class="open-hint"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>View case study</div></div>
+    </div>
+    <div class="project-card" onclick="openModal('modal-elie')">
+      <div class="project-thumb p2-bg project-thumb-bg">Elie Saab </div>
+      <div class="project-info"><h3>Elie Saab - About Page</h3><p>Luxury fashion web design for the Elie Saab brand "About" section - editorial &amp; refined.</p><span class="project-type type-ui">Web Design · Fashion</span><div class="open-hint"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>View case study</div></div>
+    </div>
+    <!--
+    <div class="project-card" onclick="openModal('modal-fenty')">
+      <div class="project-thumb p2-bg project-thumb-bg">Fenty Beauty </div>
+      <div class="project-info"><h3>Fenty Beauty - Redesign</h3><p>Luxury beauty web design for the Fenty Beauty brand - modern, inclusive, and empowering.</p><span class="project-type type-ui">Web Design · Beauty</span><div class="open-hint"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>View case study</div></div>
+    </div>
+  </div>
+  -->
+</section>
+<footer><p>© 2026 <span>Noor Salama</span>. All rights reserved.</p></footer>
 
-  <!-- PROJECT DETAILS -->
+<!--MODAL 1 — ALMOST REAL (AR APP)-->
+<div class="modal-overlay" id="modal-ar" onclick="closeOnBg(event, 'modal-ar')">
+  <div class="modal">
+    <div class="modal-hero modal-hero-ar">
+      <button class="modal-close" onclick="closeModal('modal-ar')">✕</button>
+      <div class="modal-hero-content">
+        <p class="project-number">Project 01 · Bachelor's Thesis</p>
+        <h2>Almost Real</h2>
+        <p class="hero-sub">AR Furniture Space Configuration App</p>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta">
+        <span class="meta-tag meta-lime">Augmented Reality</span>
+        <span class="meta-tag meta-lime">Unity 3D</span>
+        <span class="meta-tag meta-lime">C#</span>
+        <span class="meta-tag meta-lime">ARCore</span>
+        <span class="meta-tag meta-lime">Microsoft Azure</span>
+        <span class="meta-tag meta-lime">Addressables</span>
+        <span class="meta-tag meta-outline">Android</span>
+        <span class="meta-tag meta-outline">Bachelor's Thesis · 2022</span>
+      </div>
+      <div class="case-full">
+        <p class="cc-label">Overview</p>
+        <h5>What is Almost Real?</h5>
+        <p>Almost Real is an Android AR application developed as my Bachelor's thesis at the Technical University of Sofia. It allows users to visualise 3D furniture models placed in their real environment using their smartphone camera, without ever visiting a store.</p>
+        <p>Think of it as a personal IKEA Place, but built from scratch. Users scan their room, select furniture from a scrollable catalogue, spawn it into their space, and then move, scale, and rotate it until it feels right, all in real time.</p>
+      </div>
+      <div class="case-grid">
+        <div class="case-card">
+          <p class="cc-label">The Problem</p>
+          <h5>Online shopping lacks spatial context</h5>
+          <p>Traditional e-commerce only shows flat images of furniture. Customers can't know if a sofa will fit their living room or match their existing decor until it arrives, often leading to costly returns and frustration.</p>
+        </div>
+        <div class="case-card">
+          <p class="cc-label">The Solution</p>
+          <h5>Try before you buy, at home</h5>
+          <p>Almost Real uses markerless AR to scan real surfaces and overlay photorealistic 3D furniture models. Users get a true sense of size, proportion, and style - from their couch, at any time.</p>
+        </div>
+      </div>
+      <div class="case-full">
+        <p class="cc-label">Key Features</p>
+        <h5>What users can do</h5>
+        <ul>
+          <li><strong>Spawn furniture</strong> - tap any item from the horizontal scroll catalogue to place it exactly where the AR marker sits.</li>
+          <li><strong>Move it</strong> - drag the selected item across the detected plane to reposition it anywhere in the room.</li>
+          <li><strong>Scale it</strong> - use the + / − scale buttons to resize the object bigger or smaller.</li>
+          <li><strong>Rotate it</strong> - clockwise or anti-clockwise rotation with dedicated controls.</li>
+          <li><strong>Delete it</strong> - tap any spawned item and hit "Delete Item" to remove it.</li>
+          <li><strong>Refresh</strong> - reset the entire scene and start fresh.</li>
+          <li><strong>Info panel</strong> - a built-in guide helps first-time users get started instantly.</li>
+        </ul>
+      </div>
+      <div class="dark-card">
+        <p class="cc-label">Tech Stack & Architecture</p>
+        <h5>How it was built</h5>
+        <p>The app uses <strong>Google ARCore</strong> via Unity's AR Foundation for markerless plane detection. 3D models were sourced from Sketchfab, imported and configured as prefabs in Unity, then grouped as <strong>Addressables</strong> - uploaded to <strong>Microsoft Azure Blob Storage</strong> so they load dynamically at runtime without bloating the APK.</p>
+        <p>The architecture centres on five core classes: <em>PlacementIndicator</em> (raycast + marker), <em>DataHandler</em> (model list + button creation), <em>InputManagerScript</em> (all touch interactions), <em>AssetLoader</em> (async addressable loading), and <em>Item</em> (scriptable objects holding prefab + sprite data).</p>
+        <div class="pill-row">
+          <span class="pill pill-cream">Unity 2020.3</span>
+          <span class="pill pill-cream">AR Foundation</span>
+          <span class="pill pill-cream">ARCore XR Plugin</span>
+          <span class="pill pill-cream">Microsoft Azure</span>
+          <span class="pill pill-cream">Addressables</span>
+          <span class="pill pill-cream">DOTween</span>
+          <span class="pill pill-cream">C# / Scriptable Objects</span>
+          <span class="pill pill-cream">Android 7.0+</span>
+        </div>
+      </div>
+      <div class="case-grid">
+        <div class="case-card">
+          <p class="cc-label">Existing Apps</p>
+          <h5>What was missing</h5>
+          <ul>
+            <li>IKEA Place only includes ~50% of IKEA's actual catalogue and doesn't redirect to the store to purchase.</li>
+            <li>Houzz is powerful but hard to navigate, and its floor plan tool failed in furnished rooms.</li>
+            <li>Neither app gave users a truly seamless try-on-to-checkout flow.</li>
+          </ul>
+        </div>
+        <div class="case-card">
+          <p class="cc-label">My Approach</p>
+          <h5>What I did differently</h5>
+          <ul>
+            <li>Built a minimal UI that surfaces the catalogue without obscuring the AR view.</li>
+            <li>Used cloud-hosted Addressables so models load on demand, keeping the app lightweight.</li>
+            <li>Designed full interaction controls (move, scale, rotate, delete) accessible with one hand.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="case-full">
+        <p class="cc-label">Testing & Outcomes</p>
+        <h5>What I learned from testing</h5>
+        <ul>
+          <li>Initial object spawn sizes were off -> resolved by calibrating each prefab's scale in the Unity inspector before building.</li>
+          <li>Scene switching broke the AR marker - fixed by attaching the PlacementIndicator script directly to the AR Camera.</li>
+          <li>Azure connection required exact catalog files in the blob container - proper addressables rebuild resolved load errors.</li>
+          <li>Final validation: 3D objects spawn, move, scale, rotate, and delete successfully across multiple Android devices.</li>
+        </ul>
+      </div>
+      <div class="case-full">
+        <p class="cc-label">Future Scope</p>
+        <h5>Where Almost Real could go next</h5>
+        <ul>
+          <li>iOS support (currently Android only).</li>
+          <li>Direct integration with a furniture store's live product catalogue.</li>
+          <li>In-app purchase / cart redirect functionality.</li>
+          <li>Multi-language support.</li>
+          <li>Auto-generated 3D models from product images using future ML pipelines.</li>
+          <li>Would definitely redesign it, to a better modern-looking design</li>
+        </ul>
+      </div>
 
-  <!-- FENTY -->
-  <section id="fenty" class="px-6 md:px-20 py-20 border-t">
-    <h2 class="text-3xl font-semibold mb-6">Fenty Beauty Redesign</h2>
-    <img src="images/fenty.png" class="rounded-2xl mb-6">
-    <p class="text-gray-600 max-w-2xl">
-      This project focuses on redesigning the Fenty Beauty website to improve usability, accessibility, and visual hierarchy.
-    </p>
-  </section>
+<!-- Screenshots from Thesis -->
+      <div class="divider"></div>
+      <div class="case-full">
+        <p class="cc-label">App Screenshots</p>
+        <h5>The developed application</h5>
+      </div>
+      <div style="margin-bottom:1.5rem;">
+        <p style="font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--dark-green);opacity:0.4;margin-bottom:0.8rem;font-family:'DM Sans',sans-serif;">Main Menu</p>
+        <div style="display:flex;justify-content:center;">
+          <img src="" style="display:none" alt="Almost Real Main Menu" style="width:220px;border-radius:16px;box-shadow:0 8px 32px rgba(40,48,28,0.15);" />
+        </div>
+        <p style="font-size:0.8rem;color:#888;text-align:center;margin-top:0.7rem;font-family:'DM Sans',sans-serif;">The splash screen - tap the arrow to enter the AR scene, or quit from the top-left.</p>
+      </div>
+      <div style="margin-bottom:1.5rem;">
+        <p style="font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--dark-green);opacity:0.4;margin-bottom:0.8rem;font-family:'DM Sans',sans-serif;">AR Scene &amp; info panel</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">
+          <img src="" style="display:none" alt="AR Scene" style="width:100%;border-radius:14px;box-shadow:0 6px 24px rgba(40,48,28,0.12);" />
+          <img src="" style="display:none" alt="AR Scene with info panel" style="width:100%;border-radius:14px;box-shadow:0 6px 24px rgba(40,48,28,0.12);" />
+        </div>
+        <p style="font-size:0.8rem;color:#888;text-align:center;margin-top:0.7rem;font-family:'DM Sans',sans-serif;">The AR scene: scroll catalogue at the bottom, scale/rotate controls, and the in-app info panel (right).</p>
+      </div>
+      <div style="margin-bottom:1.5rem;">
+        <p style="font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--dark-green);opacity:0.4;margin-bottom:0.8rem;font-family:'DM Sans',sans-serif;">Placing a virtual couch - selected &amp; deselected</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">
+          <img src="" style="display:none" alt="Couch selected" style="width:100%;border-radius:14px;box-shadow:0 6px 24px rgba(40,48,28,0.12);" />
+          <img src="" style="display:none" alt="Couch deselected" style="width:100%;border-radius:14px;box-shadow:0 6px 24px rgba(40,48,28,0.12);" />
+        </div>
+        <p style="font-size:0.8rem;color:#888;text-align:center;margin-top:0.7rem;font-family:'DM Sans',sans-serif;">Pink selection plane visible under the couch (left). Deselected - clean view (right).</p>
+      </div>
+      <div style="margin-bottom:1.5rem;">
+        <p style="font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--dark-green);opacity:0.4;margin-bottom:0.8rem;font-family:'DM Sans',sans-serif;">Placing a virtual night stand</p>
+        <div style="display:flex;justify-content:center;">
+          <img src="" style="display:none" alt="Night Stand AR" style="width:260px;border-radius:16px;box-shadow:0 8px 32px rgba(40,48,28,0.15);" />
+        </div>
+        <p style="font-size:0.8rem;color:#888;text-align:center;margin-top:0.7rem;font-family:'DM Sans',sans-serif;">Night stand with lamp - photorealistic 3D model placed on a detected outdoor surface.</p>
+      </div>
+      <div style="margin-bottom:1.5rem;">
+        <p style="font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--dark-green);opacity:0.4;margin-bottom:0.8rem;font-family:'DM Sans',sans-serif;">Chair facing a real table · Balcony set</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">
+          <img src="" style="display:none" alt="Virtual chair with real table" style="width:100%;border-radius:14px;box-shadow:0 6px 24px rgba(40,48,28,0.12);" />
+          <img src="" style="display:none" alt="Balcony set" style="width:100%;border-radius:14px;box-shadow:0 6px 24px rgba(40,48,28,0.12);" />
+        </div>
+        <p style="font-size:0.8rem;color:#888;text-align:center;margin-top:0.7rem;font-family:'DM Sans',sans-serif;">Left: virtual chair next to a real table. Right: balcony table-and-chair set placed and scaled outdoors.</p>
+      </div>
 
-  <!-- ELIE -->
-  <section id="elie" class="px-6 md:px-20 py-20 border-t">
-    <h2 class="text-3xl font-semibold mb-6">Elie Saab Website</h2>
-    <img src="images/elie.png" class="rounded-2xl mb-6">
-    <p class="text-gray-600 max-w-2xl">
-      A luxury redesign focusing on elegance, typography, and immersive visual storytelling.
-    </p>
-  </section>
+    </div>
+  </div>
+</div>
 
-  <!-- ABOUT -->
-  <section id="about" class="px-6 md:px-20 py-16 border-t">
-    <h2 class="text-2xl mb-6">About</h2>
-    <p class="text-gray-600 max-w-xl">
-      I’m Noor, a UI/UX designer with a background in computer engineering. I focus on clean, user-centered design.
-    </p>
-  </section>
+<!--MODAL 2 — MINI-WORLD (VR GAME)-->
+<div class="modal-overlay" id="modal-vr" onclick="closeOnBg(event, 'modal-vr')">
+  <div class="modal">
+    <div class="modal-hero modal-hero-vr">
+      <button class="modal-close" onclick="closeModal('modal-vr')">✕</button>
+      <div class="modal-hero-content">
+        <p class="project-number">Project 02 · XR Course - Master's</p>
+        <h2>Mini-World</h2>
+        <p class="hero-sub">Educational VR Garden Game</p>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta">
+        <span class="meta-tag meta-pink">Virtual Reality</span>
+        <span class="meta-tag meta-pink">Unity 3D</span>
+        <span class="meta-tag meta-pink">XR Interaction Toolkit</span>
+        <span class="meta-tag meta-pink">C#</span>
+        <span class="meta-tag meta-outline">Team of 3</span>
+        <span class="meta-tag meta-outline">Extended Reality Course DH2310 Project</span>
+      </div>
+      <div class="case-full">
+        <p class="cc-label">Implemented in the project</p>
+        <h5>Features</h5>
+        <div class="points-row">
+          <div class="point-badge"><div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>XR Game (VR)</div>
+          <div class="point-badge"><div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>Implemented Logging (CSV)</div>
+          <div class="point-badge"><div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>Multiple Levels with Start Menu</div>
+        </div>
+      </div>
+      <div class="case-full">
+        <p class="cc-label">Overview</p>
+        <h5>What is Mini-World?</h5>
+        <p>Mini-World is an educational VR game developed as part of the Extended Reality course, built in a team of three. Players are shrunk down to insect size and dropped into a lush virtual garden, a world that feels alive, curious, and full of things to discover.</p>
+        <p>The game combines exploration, photography, and quiz-based interactions to form a complete learning loop: discover → capture → learn → test. Its main goal is to let children explore the hidden world of insects, helping them discover and understand organisms that are normally beyond our sight. To ensure a safe and immersive experience, the project was specifically designed in VR.</p>
+      </div>
+      <div class="case-grid">
+        <div class="case-card">
+          <p class="cc-label">Level 1 - The Garden</p>
+          <h5>Explore & Discover</h5>
+          <p>Players roam a virtual garden and encounter different insects hidden throughout the environment. Interacting with each insect reveals a fun educational fact about it. Players can also take in-game photos of each insect they find, which get stored in their personal <strong>journal</strong>, building a collection as they explore.</p>
+        </div>
+        <div class="case-card">
+          <p class="cc-label">Level 2 - The Quiz</p>
+          <h5>Test Your Knowledge</h5>
+          <p>After exploring the garden, players enter Level 2 - a short quiz that tests what they learned from their insect encounters. The questions are based on the facts discovered during exploration, reinforcing the learning through active recall in a playful, low-pressure format.</p>
+        </div>
+      </div>
+      <div class="case-full">
+        <p class="cc-label">Key Features</p>
+        <h5>What makes Mini-World tick</h5>
+        <ul>
+          <li><strong>Starting menu with level selection</strong> - players choose their entry point from a clear menu.</li>
+          <li><strong>Insect interactions</strong> - approaching and engaging with each insect triggers a pop-up fact.</li>
+          <li><strong>In-game camera & journal</strong> - players photograph each insect, photos are then stored and viewable in a journal.</li>
+          <li><strong>Quiz system</strong> - Level 2 presents questions drawn from the facts players encountered in Level 1.</li>
+          <li><strong>Data logging</strong> - all player activity is logged to a <strong>CSV file</strong> for analysis and research purposes.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <!-- CONTACT -->
-  <section id="contact" class="px-6 md:px-20 py-16 border-t">
-    <h2 class="text-2xl mb-6">Contact</h2>
-    <p class="text-gray-600">
-      your@email.com
-    </p>
-  </section>
+<!-- MODAL 3: ONLINE PAYMENT -->
+<div class="modal-overlay" id="modal-payment" onclick="closeOnBg(event,'modal-payment')">
+  <div class="modal">
+    <div class="modal-hero modal-hero-img" style="background:#e6b8dc;height:340px;">
+      <button class="modal-close" onclick="closeModal('modal-payment')" style="background:rgba(255,255,255,0.15);">✕</button>
+      
+      <div class="modal-hero-overlay" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(13,27,42,0.85) 0%,transparent 60%);display:flex;align-items:flex-end;padding:2rem;">
+        <div><p style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:0.4rem;font-family:'DM Sans',sans-serif;">Project 03 · UI Design</p><h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:white;">Online Payment Landing Page</h2><p style="font-size:0.88rem;color:rgba(255,255,255,0.65);font-family:'DM Sans',sans-serif;">Web UI · Banking & FinTech</p></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta"><span class="meta-tag meta-lime">UI Design</span><span class="meta-tag meta-lime">Web Design</span><span class="meta-tag meta-lime">Figma</span><span class="meta-tag meta-outline">Landing Page</span><span class="meta-tag meta-outline">FinTech · 2025</span></div>
+      <div class="case-full"><p class="cc-label">Overview</p><h5>What is this project?</h5><p>A fully designed landing page for an online payment and digital banking product. The goal was to build trust instantly, because in FinTech, first impressions directly affect conversion. The design communicates security, speed, and simplicity above all else.</p></div>
+      <div class="case-grid">
+        <div class="case-card"><p class="cc-label">The Challenge</p><h5>Trust is hard to earn on a single page</h5><p>Financial products face a uniquely high bar: users need to feel safe before they even consider signing up. The design had to balance boldness with credibility, confident but not aggressive.</p></div>
+        <div class="case-card"><p class="cc-label">My Approach</p><h5>Clarity over decoration</h5><p>I led with a strong hero section that names the value proposition upfront, used a restrained colour palette with high contrast CTAs, and let generous whitespace do the trust-building heavy lifting.</p></div>
+      </div>
+      <div class="case-full"><p class="cc-label">Design Decisions</p><h5>Key choices that shaped the page</h5><ul><li><strong>Typography hierarchy</strong> - bold display type for the headline, lighter weight for supporting copy. No visual competition.</li><li><strong>Colour palette</strong> - deep navy with electric accent, signalling reliability and modernity.</li><li><strong>Social proof positioning</strong> - trust indicators (logos, stats) placed close to the CTA to reduce friction at the moment of decision.</li><li><strong>Card UI for features</strong> - scannable benefit blocks that users can read in under 10 seconds.</li></ul></div>
+      <div class="case-full"><p class="cc-label">Design Preview</p><h5>Full page</h5><div style="margin-bottom:1rem;"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/839156231020749.688142bae97b8.png" style="width:100%;border-radius:12px;box-shadow:0 4px 20px rgba(40,48,28,0.1);"/></div><a href="https://www.behance.net/gallery/231020749/Online-Payment-Landing-Page" target="_blank" style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--dark-green);font-family:'DM Sans',sans-serif;text-decoration:none;border:1px solid rgba(40,48,28,0.2);padding:0.35rem 0.85rem;border-radius:8px;margin-top:0.5rem;">View on Behance ↗</a></div>
+      <div class="dark-card"><p class="cc-label">Tools Used</p><h5>Stack</h5><div class="pill-row"><span class="pill pill-cream">Figma</span><span class="pill pill-cream">Auto Layout</span><span class="pill pill-cream">Components</span><span class="pill pill-cream">Web Design</span></div></div>
+    </div>
+  </div>
+</div>
 
-  <!-- Swiper -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<!-- MODAL 4: LE PETITE CAFÉ -->
+<div class="modal-overlay" id="modal-cafe" onclick="closeOnBg(event,'modal-cafe')">
+  <div class="modal">
+    <div class="modal-hero modal-hero-img" style="background:#9b83f1;height:340px;position:relative;">
+      <button class="modal-close" onclick="closeModal('modal-cafe')" style="background:rgba(23, 9, 85, 0.15);">✕</button>
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(43,26,14,0.85) 0%,transparent 60%);display:flex;align-items:flex-end;padding:2rem;">
+        <div><p style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:0.4rem;font-family:'DM Sans',sans-serif;">Project 04 · UX/UI Design</p><h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:white;">Le Petite Café</h2><p style="font-size:0.88rem;color:rgba(255,255,255,0.65);font-family:'DM Sans',sans-serif;">Web Design · Café Ordering</p></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta"><span class="meta-tag meta-pink">UX/UI Design</span><span class="meta-tag meta-pink">Web Design</span><span class="meta-tag meta-pink">Figma</span><span class="meta-tag meta-outline">Café · Food &amp; Bev</span><span class="meta-tag meta-outline">Personal Project · 2025</span></div>
+      <div class="case-full"><p class="cc-label">Overview</p><h5>What is Le Petite Café?</h5><p>Le Petite Café is a website designed for a boutique café where customers can browse the menu and place orders directly online. The goal was to create an ordering experience that feels as warm and inviting as walking into the café itself(a virtual café for now), making it easy to find what you want, customise your order, and check out without friction.</p></div>
+      <div class="case-grid">
+        <div class="case-card"><p class="cc-label">The Challenge</p><h5>Ordering that feels effortless</h5><p>Most café websites are either too basic or too cluttered. The challenge was to design a clean, intuitive ordering flow that guides users from browsing to checkout in as few steps as possible, without losing the personality of the brand.</p></div>
+        <div class="case-card"><p class="cc-label">My Approach</p><h5>Warm design, clear flow</h5><p>I used earthy tones, generous food photography, and a simple layout hierarchy to make the ordering process feel natural. Every screen was designed with one goal: get the user to what they want fast, with no confusion along the way.</p></div>
+      </div>
+      <div class="case-full"><p class="cc-label">Key Screens</p><h5>What the website covers</h5><ul><li><strong>Home</strong> - hero section with featured items, today's specials, and a clear call to order.</li><li><strong>Menu</strong> - categorised by drinks, food, and extras with filters and food photography.</li><li><strong>Item detail</strong> - customisation options (size, milk type, extras), quantity, and add to cart.</li><li><strong>Cart &amp; checkout</strong> - order summary, pickup or delivery selection, and payment.</li><li><strong>Order confirmation</strong> - clean confirmation screen with estimated ready time.</li></ul></div>
+      <div class="case-full"><p class="cc-label">Design Preview</p><h5>Selected screens</h5>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1rem;"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/a8dba3220130211.67bdce4a72157.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/239bed220130211.67bdce4a75ebc.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1rem;"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/a0a52b220130211.67bdce4a72bf4.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/fddcb2220130211.67bdce4a7362a.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1rem;"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/299054220130211.67bdce4a7505e.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/><img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/52c95a220130211.67bdce4a7586a.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/></div>
+      <a href="https://www.behance.net/gallery/220130211/Le-Petite-Caf" target="_blank" style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--dark-green);font-family:'DM Sans',sans-serif;text-decoration:none;border:1px solid rgba(40,48,28,0.2);padding:0.35rem 0.85rem;border-radius:8px;margin-top:0.5rem;">View on Behance ↗</a></div>
+      <div class="dark-card"><p class="cc-label">Tools & Approach</p><h5>Stack</h5><div class="pill-row"><span class="pill pill-cream">Figma</span><span class="pill pill-cream">Component Library</span><span class="pill pill-cream">Mobile UI</span><span class="pill pill-cream">User Flows</span><span class="pill pill-cream">Prototyping</span></div></div>
+    </div>
+  </div>
+</div>
 
-  <script>
-    new Swiper(".mySwiper", {
-      slidesPerView: 1.2,
-      spaceBetween: 20,
-      grabCursor: true,
-      breakpoints: {
-        768: {
-          slidesPerView: 2.2
-        }
-      }
-    });
+<!-- MODAL 5: MUZIC APP -->
+<div class="modal-overlay" id="modal-muzic" onclick="closeOnBg(event,'modal-muzic')">
+  <div class="modal">
+    <div class="modal-hero modal-hero-img" style="background:#6ccfba;height:340px;position:relative;">
+      <button class="modal-close" onclick="closeModal('modal-muzic')" style="background:rgba(255,255,255,0.15);">✕</button>
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,0.9) 0%,transparent 60%);display:flex;align-items:flex-end;padding:2rem;">
+        <div><p style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:0.4rem;font-family:'DM Sans',sans-serif;">Project 05 · UI Design</p><h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:white;">Muzic App</h2><p style="font-size:0.88rem;color:rgba(255,255,255,0.65);font-family:'DM Sans',sans-serif;">Mobile App · Music Streaming</p></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta"><span class="meta-tag meta-lime">UI Design</span><span class="meta-tag meta-lime">Mobile App</span><span class="meta-tag meta-lime">Figma</span><span class="meta-tag meta-lime">Notion</span><span class="meta-tag meta-outline">Music · Entertainment</span><span class="meta-tag meta-outline">Personal Project · 2025</span></div>
+      <div class="case-full"><p class="cc-label">Overview</p><h5>What is Muzic?</h5><p>Muzic is a dark-mode music streaming app concept that puts the artist's album at the centre of the experience. Designed for people who care deeply about how music looks as much as how it sounds, the UI adapts its colour palette dynamically to the currently playing track, creating an immersive, ever-changing environment.</p></div>
+      <div class="case-grid">
+        <div class="case-card"><p class="cc-label">The Challenge</p><h5>Standing out in a crowded space</h5><p>Spotify, Apple Music, Tidal - music apps are dominated by giants. The design challenge was to carve out a visual identity that felt fresh, premium, and genuinely music-first rather than feature-first.</p></div>
+        <div class="case-card"><p class="cc-label">My Approach</p><h5>Visual immersion as a differentiator</h5><p>I designed around the music rather than around the interface. Album art bleeds into backgrounds, text adapts to contrast, and the player screen becomes a full-canvas experience, almost like a digital album sleeve.</p></div>
+      </div>
+      <div class="case-full"><p class="cc-label">Key Screens</p><h5>Core flows</h5><ul><li><strong>Home / for you</strong> - personalised recommendations, new releases, recently played.</li><li><strong>Now playing</strong> - full artist's album with adaptive background, waveform scrubber, lyrics toggle.</li><li><strong>Library</strong> - saved albums, playlists, and artists with clean list/grid toggle.</li><li><strong>Artist profile</strong> - discography, top tracks, upcoming events.</li><li><strong>Search &amp; discovery</strong> - genre mood boards and trending charts.</li></ul></div>
+      <div class="case-full"><p class="cc-label">Design Preview</p><h5>Selected screens</h5>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1rem;"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/57bb92218199609.679d218ece1dd.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/><img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/38fb30218199609.679d218ed1813.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1rem;"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/5de9d1218199609.679d218ed06cd.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/><img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/87d644218199609.679d218ecea54.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1rem;"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/7ff462218199609.679d218ed001c.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/><img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/c52721218199609.679d218ed1182.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/></div>
+      <a href="https://www.behance.net/gallery/218199609/Muzic-App" target="_blank" style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--dark-green);font-family:'DM Sans',sans-serif;text-decoration:none;border:1px solid rgba(40,48,28,0.2);padding:0.35rem 0.85rem;border-radius:8px;margin-top:0.5rem;">View on Behance ↗</a></div>
+      <div class="dark-card"><p class="cc-label">Tools Used</p><h5>Stack</h5><div class="pill-row"><span class="pill pill-cream">Figma</span><span class="pill pill-cream">Notion</span><span class="pill pill-cream">Dark UI</span><span class="pill pill-cream">Component System</span><span class="pill pill-cream">Prototyping</span></div></div>
+    </div>
+  </div>
+</div>
 
-    function scrollToProject(id) {
-      document.getElementById(id).scrollIntoView({
-        behavior: "smooth"
-      });
-    }
-  </script>
+<!-- MODAL 6: FOODZ -->
+<div class="modal-overlay" id="modal-foodz" onclick="closeOnBg(event,'modal-foodz')">
+  <div class="modal">
+    <div class="modal-hero modal-hero-img" style="background:#1a0a00;height:340px;position:relative;">
+      <button class="modal-close" onclick="closeModal('modal-foodz')" style="background:rgba(255,255,255,0.15);">✕</button>
+      <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/cb5932215161237.67654b972c6bb.png" style="width:100%;height:100%;object-fit:cover;opacity:0.9;" />
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(26,10,0,0.85) 0%,transparent 60%);display:flex;align-items:flex-end;padding:2rem;">
+        <div><p style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:0.4rem;font-family:'DM Sans',sans-serif;">Project 06 · UX/UI Design</p><h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:white;">Foodz Delivery App</h2><p style="font-size:0.88rem;color:rgba(255,255,255,0.65);font-family:'DM Sans',sans-serif;">Mobile App · Food Delivery</p></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta"><span class="meta-tag meta-pink">UX/UI Design</span><span class="meta-tag meta-pink">Mobile App</span><span class="meta-tag meta-pink">Figma</span><span class="meta-tag meta-pink">Notion</span><span class="meta-tag meta-outline">Food Delivery</span><span class="meta-tag meta-outline">Personal Project · 2024</span></div>
+      <div class="case-full"><p class="cc-label">Overview</p><h5>What is Foodz?</h5><p>Foodz is a comprehensive food delivery app concept designed from the ground up, covering every stage of the user's journey from restaurant discovery to real-time order tracking and post-delivery review. The design prioritises speed and appetite appeal: food should look irresistible on screen.</p></div>
+      <div class="case-grid">
+        <div class="case-card"><p class="cc-label">The Challenge</p><h5>Navigating complexity without friction</h5><p>Food delivery apps carry enormous feature complexity like: menus, filters, cart, payment, tracking, history. The challenge was to keep every flow feeling light and fast, even when handling many options and states.</p></div>
+        <div class="case-card"><p class="cc-label">My Approach</p><h5>Progressive disclosure</h5><p>I structured the app so users are never overwhelmed, showing only what's relevant at each moment. The home screen is curated, not cluttered; complexity is revealed gradually as users drill deeper into their order.</p></div>
+      </div>
+      <div class="case-full"><p class="cc-label">Key Flows</p><h5>What the app covers end-to-end</h5><ul><li><strong>Onboarding</strong> - location permission, dietary preference setup, personalised home.</li><li><strong>Discovery</strong> - restaurants by category, cuisine filter, distance &amp; rating sort.</li><li><strong>Restaurant &amp; menu</strong> - scrollable menu sections, item photography, customisation modal.</li><li><strong>Cart &amp; checkout</strong> - order summary, coupon apply, address selection, payment method.</li><li><strong>Live tracking</strong> - map with driver location, estimated arrival, contact driver.</li><li><strong>Order history &amp; reviews</strong> - past orders with re-order shortcut, star + text review.</li></ul></div>
+      <div class="case-full"><p class="cc-label">Design Preview</p><h5>Selected screens</h5>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1rem;"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/cb5932215161237.67654b972c6bb.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/><img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/002e7d215161237.67654b97317ca.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1rem;"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/38f542215161237.67654b972e0d2.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/><img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/296acb215161237.67654b972c1ec.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1rem;"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/f5cdc9215161237.67654b9732983.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/><img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/a37c38215161237.67654b97302db.png" style="width:100%;border-radius:10px;box-shadow:0 3px 16px rgba(40,48,28,0.1);"/></div>
+      <a href="https://www.behance.net/gallery/215161237/Foodz-Delivery-Application" target="_blank" style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--dark-green);font-family:'DM Sans',sans-serif;text-decoration:none;border:1px solid rgba(40,48,28,0.2);padding:0.35rem 0.85rem;border-radius:8px;margin-top:0.5rem;">View on Behance ↗</a></div>
+      <div class="dark-card"><p class="cc-label">Tools Used</p><h5>Stack</h5><div class="pill-row"><span class="pill pill-cream">Figma</span><span class="pill pill-cream">Canva</span><span class="pill pill-cream">Notion</span><span class="pill pill-cream">Mobile UX</span><span class="pill pill-cream">Prototyping</span></div></div>
+    </div>
+  </div>
+</div>
 
-</body>
-</html>
+<!-- MODAL 7: ELIE SAAB -->
+<div class="modal-overlay" id="modal-elie" onclick="closeOnBg(event,'modal-elie')">
+  <div class="modal">
+    <div class="modal-hero modal-hero-img" style="background:#c9c5c5;height:340px;position:relative;">
+      <button class="modal-close" onclick="closeModal('modal-elie')" style="background:rgba(255,255,255,0.15);">✕</button>
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(26,20,16,0.85) 0%,transparent 60%);display:flex;align-items:flex-end;padding:2rem;">
+        <div><p style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:0.4rem;font-family:'DM Sans',sans-serif;">Project 07 · Web Design · Fashion</p><h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:white;">Elie Saab - About Page</h2><p style="font-size:0.88rem;color:rgba(255,255,255,0.65);font-family:'DM Sans',sans-serif;">Luxury Fashion · Editorial Web Design</p></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta"><span class="meta-tag meta-lime">Web Design</span><span class="meta-tag meta-lime">Figma</span><span class="meta-tag meta-lime">Pinterest</span><span class="meta-tag meta-outline">Fashion · Haute Couture</span><span class="meta-tag meta-outline">Personal Project · 2025</span></div>
+      <div class="case-full"><p class="cc-label">Overview</p><h5>What is this project?</h5><p>A reimagined "About" page for Elie Saab, one of the most celebrated names in haute couture. The project explores how a luxury fashion house can tell its story online: through restraint, grandeur, and the kind of editorial stillness that lets craftsmanship speak for itself.</p><p>Rather than showcasing products, this page is purely narrative, the founder's story, the house's heritage, and the philosophy behind the stitches.</p></div>
+      <div class="case-grid">
+        <div class="case-card"><p class="cc-label">The Challenge</p><h5>Luxury that doesn't shout</h5><p>Luxury brands walk a fine line online, the web is inherently noisy, but the brand demands quiet authority. Every pixel choice had to feel deliberate and refined, as if chosen by the atelier itself.</p></div>
+        <div class="case-card"><p class="cc-label">Design Philosophy</p><h5>Editorial minimalism</h5><p>Inspired by high-fashion print editorials: full-bleed photography, serif-driven typography with wide tracking, off-white backgrounds, and sparse layout that treats empty space as a design element.</p></div>
+      </div>
+      <div class="case-full"><p class="cc-label">Design Decisions</p><h5>What shapes the page</h5><ul><li><strong>Typography</strong> - classical serif display paired with ultra-light body text. Wide letter-spacing throughout to convey exclusivity.</li><li><strong>Photography treatment</strong> - full-bleed, unclipped images that fill the viewport, demanding the viewer's full attention.</li><li><strong>Colour palette</strong> - ivory, champagne, and charcoal.</li><li><strong>Layout rhythm</strong> - alternating full-width and contained sections create a breathing pace: fast, then slow, then fast again.</li><li><strong>Storytelling structure</strong> - the founder's origin → the craft → the legacy → the present. A narrative arc, not a list of facts.</li></ul></div>
+      <div class="case-full"><p class="cc-label">Design Preview</p><h5>Full design</h5><div style="margin-bottom:1rem;"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp_webp/e4a6e8218179545.679cde69427f2.png" style="width:100%;border-radius:12px;box-shadow:0 4px 20px rgba(40,48,28,0.1);"/></div>
+      <div class="dark-card"><p class="cc-label">Tools Used</p><h5>Stack</h5><div class="pill-row"><span class="pill pill-cream">Figma</span><span class="pill pill-cream">Pinterest</span><span class="pill pill-cream">Editorial Layout</span><span class="pill pill-cream">Luxury Branding</span></div></div>
+    </div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+  function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+  function closeOnBg(e,id){if(e.target===document.getElementById(id))closeModal(id);}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(m=>{m.classList.remove('open');document.body.style.overflow='';})});
+  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:0.1});
+  document.querySelectorAll('.fade-section,.timeline-item').forEach(el=>obs.observe(el));
+</script>
