@@ -1,0 +1,23 @@
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Node modules
+node_modules/
+
+# Images/videos if too large (add specific if needed)
+# *.mp4
+# *.jpeg
+# *.jpg
+# *.png
+
+# IDE
+.vscode/
+.idea/
+

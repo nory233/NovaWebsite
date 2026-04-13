@@ -1,13 +1,15 @@
-# Fix Burger Menu Gap Task - COMPLETE
+# Republish Website to nory233/noorsalWebsite Task
 
-✅ Burger menu gap fixed in index.html:
+## Plan Breakdown & Progress
 
-**Changes Applied:**
+✅ **Step 1:** Understand repo - Git repo exists, origin https://github.com/nory233/noorsalWebsite.git, main branch up-to-date, working tree clean.
 
-- `transform: translateY(-10px)` → `translateY(-100%)` (slides fully under nav)
-- `padding: 1.5rem 2rem` → `1rem 2rem` (tighter top spacing)
-- `border-top: 1px solid rgba(255,255,255,0.08)` → `0.05` opacity (subtler seam)
+✅ **Step 2:** Create TODO.md for tracking (this file).
 
-**Verification:** Test on mobile (<768px): hamburger → smooth slide-down, no gap from nav.
+✅ **Step 3:** Create .gitignore & README.md.
 
-Open preview: `start index.html`
+**Next:** Add/commit/push.
+
+✅ **Step 4:** git add . && git commit -m "Republish portfolio site - updates via BLACKBOXAI" && git push origin main.
+
+**Final:** Website republished! Preview: start index.html | Live: https://nory233.github.io/noorsalWebsite or repo pages.
